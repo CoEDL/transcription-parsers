@@ -1,6 +1,6 @@
 "use strict";
 
-import {
+const {
     map,
     groupBy,
     isArray,
@@ -9,9 +9,9 @@ import {
     isObject,
     zip,
     flatten
-} from "lodash";
+} = require("lodash");
 
-export class TRSParser {
+class TRSParser {
     parse(data) {
         if (data.html) {
             return;
@@ -89,3 +89,7 @@ export class TRSParser {
         return data;
     }
 }
+
+module.exports = {
+    TRSParser
+};

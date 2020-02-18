@@ -1,7 +1,7 @@
-import { EAFParser } from "./eaf-parser";
-import { IXTParser } from "./ixt-parser";
-import { TRSParser } from "./trs-parser";
-import { FlextextParser } from "./flextext-parser";
+const { EAFParser } = require("./eaf-parser");
+const { IXTParser } = require("./ixt-parser");
+const { TRSParser } = require("./trs-parser");
+const { FlextextParser } = require("./flextext-parser");
 
 const parser = {
     eaf: new EAFParser(),
@@ -11,35 +11,39 @@ const parser = {
 };
 
 class Parser {
-    constructor() {}
-    async loadTranscription({ transcription }) {
-        const type = transcription.name.split(".").pop();
-        let response = await fetch(transcription.path);
-        if (!response.ok) throw response;
-        let xml = await response.text();
-        let segments, tiers;
-        if (type === "eaf") {
-            let result = await parser.eaf.extract({ data: xml });
-            segments = result.segments;
-            tiers = result.tiers;
+    /*
+     * name: the name of the file: transcription.eaf
+     *
+     * data: the content of the file as a utf-8 string
+     *
+     */
+    constructor({ name, data }) {
+        this.name = name;
+        this.type = name.split(".").pop();
+        this.data = data;
+    }
+
+    async parse() {
+        if (this.type === "eaf") {
+            let result = await parser.eaf.parse({ data: this.data });
+            return { type: this.type, ...result };
         } else {
-            xml = this.parseXML(xml);
+            let xml = this.parseXML(this.data);
             if (!xml) return [];
-            transcription = this.convertXmlToJson(xml);
-            segments = parser[type].parse(transcription);
+            let transcription = this.convertXmlToJson(xml);
+            let segments = parser[type].parse(transcription);
             segments = segments.map(segment => {
                 return {
                     ...segment,
                     htmlId: `s${this.hash(segment.id)}`
                 };
             });
+            return { type: this.type, segments };
         }
-        return { type, segments, tiers };
     }
 
     parseXML(src) {
         /* returns an XMLDocument, or null if `src` is malformed */
-
         let key = `a` + Math.random().toString(32);
 
         let parser = new DOMParser();

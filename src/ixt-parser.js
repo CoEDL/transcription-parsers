@@ -1,8 +1,8 @@
 "use strict";
 
-import { map, isArray } from "lodash";
+const { map, isArray } = require("lodash");
 
-export class IXTParser {
+class IXTParser {
     parse(data) {
         let text = map(data.eopas.interlinear.phrase, d => {
             var words = map(d.wordlist.word, w => {
@@ -41,3 +41,7 @@ export class IXTParser {
         return text;
     }
 }
+
+module.exports = {
+    IXTParser
+};

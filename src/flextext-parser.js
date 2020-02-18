@@ -1,6 +1,6 @@
 "use strict";
 
-export class FlextextParser {
+class FlextextParser {
     constructor() {}
 
     parse(data) {
@@ -54,3 +54,7 @@ export class FlextextParser {
         return text;
     }
 }
+
+module.exports = {
+    FlextextParser
+};
