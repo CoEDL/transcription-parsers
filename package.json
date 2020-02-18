@@ -1,0 +1,31 @@
+{
+    "name": "transcription-parsers",
+    "version": "1.0.0",
+    "description": "A set of parsers to convert transcription XML files to hierarchical JSON.",
+    "main": "index.js",
+    "scripts": {
+        "test-watch": "./node_modules/.bin/jest --watch",
+        "test": "./node_modules/.bin/jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CoEDL/transcription-parsers.git"
+    },
+    "author": "Marco La Rosa",
+    "license": "GPL-3.0-or-later",
+    "bugs": {
+        "url": "https://github.com/CoEDL/transcription-parsers/issues"
+    },
+    "homepage": "https://github.com/CoEDL/transcription-parsers#readme",
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "dependencies": {
+        "lodash": "^4.17.15",
+        "xml-js": "^1.6.11"
+    },
+    "devDependencies": {
+        "fs-extra": "^8.1.0",
+        "jest": "^25.1.0"
+    }
+}
