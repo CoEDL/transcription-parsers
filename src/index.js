@@ -2,6 +2,7 @@ const { EAFParser } = require("./eaf-parser");
 const { IXTParser } = require("./ixt-parser");
 const { TRSParser } = require("./trs-parser");
 const { FlextextParser } = require("./flextext-parser");
+const convert = require("xml-js");
 
 const parser = {
     eaf: new EAFParser(),
@@ -25,7 +26,8 @@ class Parser {
 
     async parse() {
         if (this.type === "eaf") {
-            let result = await parser.eaf.parse({ data: this.data });
+            let data = convert.xml2js(this.data);
+            let result = await parser.eaf.parse({ data });
             return { type: this.type, ...result };
         } else {
             let xml = this.parseXML(this.data);
