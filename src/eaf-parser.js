@@ -1,45 +1,62 @@
 "use strict";
 
-const convert = require("xml-js");
-const {
-    flattenDeep,
-    groupBy,
-    orderBy,
-    round,
-    difference,
-    isObject,
-    each,
-    trim,
-    uniq
-} = require("lodash");
+const { flattenDeep, groupBy, orderBy, round, difference } = require("lodash");
 
 class EAFParser {
     constructor() {}
 
     async parse({ data }) {
-        this.data = convert.xml2js(data);
+        this.data = data;
 
         let tiers = [];
         let statistics = {};
         let timeslots = this.extractTimeSlots();
         let errors = [];
+        let annotations = [];
         if (timeslots.length) {
             let {
                 alignableAnnotations,
                 referenceAnnotations
             } = this.extractAnnotations();
-            tiers = this.joinAnnotationsToTiers({
-                alignableAnnotations,
-                referenceAnnotations
+            try {
+                tiers = this.joinAnnotationsToTiers({
+                    alignableAnnotations,
+                    referenceAnnotations
+                });
+            } catch (error) {
+                throw new Error(
+                    `File invalid: unable to join 'ANNOTATIONS' to TIERS`
+                );
+            }
+            try {
+                annotations = this.joinAnnotations({
+                    alignableAnnotations: [...alignableAnnotations],
+                    referenceAnnotations: [...referenceAnnotations]
+                });
+            } catch (error) {
+                throw new Error(
+                    `File invalid: unable to join 'ALIGNABLE_ANNOTATIONS' to 'REFERENCE_ANNOTATIONS'`
+                );
+            }
+            let timeslotsKeyedByName = groupBy(timeslots, "name");
+            annotations = annotations.map(a => {
+                a.id = a.name;
+                a.time = {
+                    begin: timeslotsKeyedByName[a.ts.start][0].value / 1000,
+                    end: timeslotsKeyedByName[a.ts.end][0].value / 1000
+                };
+                return a;
             });
-            let annotations = this.joinAnnotations({
-                alignableAnnotations: [...alignableAnnotations],
-                referenceAnnotations: [...referenceAnnotations]
-            });
-            timeslots = this.joinAnnotationsToTimeslots({
-                annotations,
-                timeslots
-            });
+            try {
+                timeslots = this.joinAnnotationsToTimeslots({
+                    annotations,
+                    timeslots
+                });
+            } catch (error) {
+                throw new Error(
+                    `File invalid: unable to join annotations to TIERS`
+                );
+            }
             statistics = this.gatherStatistics({
                 timeslots,
                 tiers,
