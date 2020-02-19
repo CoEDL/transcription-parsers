@@ -1,57 +1,56 @@
 "use strict";
 
+const { map, isArray } = require("lodash");
+
 class FlextextParser {
     constructor() {}
 
-    parse(data) {
-        var text = lodash.map(
-            data.document["interlinear-text"].paragraphs.paragraph,
-            function(p) {
-                var words = lodash.map(p.phrases.phrase.words.word, function(
-                    w
-                ) {
-                    try {
-                        if (!lodash.isArray(w.morphemes.morph)) {
-                            w.morphemes.morph = [w.morphemes.morph];
-                        }
-                    } catch (e) {
-                        return {};
-                    }
-                    var word = lodash.map(w.morphemes.morph, function(m) {
-                        try {
-                            return {
-                                text: m.item[0]["#text"],
-                                morpheme: m.item[2]["#text"],
-                                gloss: m.item[3]["#text"]
-                            };
-                        } catch (e) {
-                            // bad data...
-                        }
-                    });
-                    try {
-                        w = {
-                            words: word
-                        };
-                    } catch (e) {
-                        // bad data...
-                    }
-                    return w;
+    parse({ data }) {
+        let paragraphs = data.elements[0].elements[0].elements[0].elements;
+        paragraphs = paragraphs.map(paragraph => {
+            let phrases = paragraph.elements[0].elements;
+            phrases = phrases.map(phrase => {
+                let items = phrase.elements.filter(e => e.name === "item");
+                let words = phrase.elements.filter(e => e.name === "words")[0]
+                    .elements;
+                items = items.map(item => {
+                    return {
+                        lang: item.attributes.lang,
+                        type: item.attributes.type,
+                        text: item.elements[0].text
+                    };
                 });
 
-                return {
-                    id: p.phrases.phrase["@attributes"]["begin-time-offset"],
-                    transcription: p.phrases.phrase.item[0]["#text"],
-                    translation: p.phrases.phrase.item[1]["#text"],
-                    time: {
-                        begin: parseFloat(
-                            p.phrases.phrase["@attributes"]["begin-time-offset"]
-                        )
-                    },
-                    words: words
+                words = words.map(word => {
+                    let morphemes = word.elements.filter(
+                        e => e.name === "morphemes"
+                    );
+                    if (!morphemes.length) return { morphemes: [] };
+                    if (!morphemes[0].elements) return { morphemes: [] };
+
+                    morphemes = morphemes.map(morph => {
+                        return morph.elements.map(e => {
+                            return {
+                                lang: e.attributes.lang,
+                                type: e.attributes.type,
+                                text: e.elements[0].text
+                            };
+                        });
+                    });
+                    return { morphemes };
+                });
+
+                phrase = {
+                    id: phrase.attributes["begin-time-offset"],
+                    ...phrase.attributes,
+                    items,
+                    words
                 };
-            }
-        );
-        return text;
+                return phrase;
+            });
+            return { phrases };
+        });
+        return paragraphs;
     }
 }
 
