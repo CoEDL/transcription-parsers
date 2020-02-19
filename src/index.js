@@ -3,7 +3,6 @@ const { IXTParser } = require("./ixt-parser");
 const { TRSParser } = require("./trs-parser");
 const { FlextextParser } = require("./flextext-parser");
 const convert = require("xml-js");
-const DOMParser = require("xmldom").DOMParser;
 
 const parser = {
     eaf: new EAFParser(),
