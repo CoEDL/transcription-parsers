@@ -13,7 +13,7 @@ const parser = {
 
 class Parser {
     /*
-     * name: the name of the file: transcription.eaf
+     * name: the name of the file: e.g. transcription.eaf
      *
      * data: the content of the file as a utf-8 string
      *
@@ -25,7 +25,12 @@ class Parser {
     }
 
     async parse() {
-        let data = convert.xml2js(this.data);
+        let data;
+        try {
+            data = convert.xml2js(this.data);
+        } catch (error) {
+            throw new Error(`Invalid XML: ${error.message}`);
+        }
         if (this.type === "eaf") {
             let result = await parser.eaf.parse({ data });
             return { type: this.type, ...result };
