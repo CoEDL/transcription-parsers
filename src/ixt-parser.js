@@ -1,44 +1,64 @@
 "use strict";
 
-const { map, isArray } = require("lodash");
+const { flattenDeep } = require("lodash");
 
 class IXTParser {
-    parse(data) {
-        let text = map(data.eopas.interlinear.phrase, d => {
-            var words = map(d.wordlist.word, w => {
-                try {
-                    if (!isArray(w.morphemelist.morpheme)) {
-                        w.morphemelist.morpheme = [w.morphemelist.morpheme];
-                    }
-                } catch (e) {
-                    return {};
-                }
-                var word = map(w.morphemelist.morpheme, function(m) {
-                    return {
-                        morpheme: m.text[0]["#text"],
-                        gloss: m.text[1]["#text"]
-                    };
-                });
-                w = {
-                    text: w.text["#text"],
-                    words: word
+    parse({ data }) {
+        let header = data.elements[0].elements.filter(
+            e => e.name === "header"
+        )[0];
+        let interlinear = data.elements[0].elements.filter(
+            e => e.name === "interlinear"
+        )[0];
+        header = {
+            source: header.elements.filter(
+                e => e.attributes.name === "dc:source"
+            )[0].attributes.value,
+            creator: header.elements.filter(
+                e => e.attributes.name === "dc:creator"
+            )[0].attributes.value,
+            language: header.elements.filter(
+                e => e.attributes.name === "dc:language"
+            )[0].attributes.value,
+            date: header.elements.filter(
+                e => e.attributes.name === "dc:date"
+            )[0].attributes.value
+        };
+
+        let phrases = interlinear.elements;
+        phrases = phrases.map(phrase => {
+            let transcription = phrase.elements.filter(
+                p => p.name === "transcription"
+            )[0];
+            transcription = transcription.elements[0].text;
+            let wordlist = phrase.elements.filter(
+                p => p.name === "wordlist"
+            )[0];
+            let words = wordlist.elements.map(word => {
+                return {
+                    word: word.elements.filter(w => w.name === "text")[0]
+                        .elements[0].text,
+                    morphemes: flattenDeep(
+                        word.elements
+                            .filter(w => w.name === "morphemelist")[0]
+                            .elements.map(m => {
+                                return m.elements.map(e => {
+                                    return {
+                                        type: e.attributes.kind,
+                                        text: e.elements[0].text
+                                    };
+                                });
+                            })
+                    )
                 };
-                return w;
             });
             return {
-                id: d["@attributes"].startTime ? d["@attributes"].startTime : 0,
-                transcription: d.transcription["#text"],
-                translation: d.translation["#text"],
-                time: {
-                    begin: parseFloat(d["@attributes"].startTime)
-                },
-                words: words
+                ...phrase.attributes,
+                transcription,
+                words
             };
         });
-        for (let i = 0; i < text.length - 1; i++) {
-            text[i].time.end = text[i + 1].time.begin;
-        }
-        return text;
+        return { phrases, header };
     }
 }
 
