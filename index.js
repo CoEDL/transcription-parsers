@@ -1,4 +1,4 @@
 const { Parser } = require("./src");
-modules.exports = {
+module.exports = {
     Parser
 };
