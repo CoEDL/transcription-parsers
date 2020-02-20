@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<eopas xmlns:dc='http://purl.org/dc/elements/1.1/'>
+    <header>
+        <meta name='dc:type' value='text/xml' />
+        <meta name='dc:source' value='051' />
+        <meta name='dc:creator' value='Nick Thieberger' />
+        <meta name='dc:language' value='erk' />
+        <meta name='dc:date' value='1998-10-03 00:00:00 UTC' />
+    </header>
+    <interlinear>
+        <phrase endTime='566.693' id='o_051-001' startTime='562.497'>
+            <transcription>Natopu nen kin ito esan ga, ipi natopu nigmam. </transcription>
+            <wordlist>
+                <word>
+                    <text>Natopu</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>natopu</text>
+                            <text kind='gloss'>spirit</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>nen</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>nen</text>
+                            <text kind='gloss'>that</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>kin</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>kin</text>
+                            <text kind='gloss'>COMP</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>ito</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>i=</text>
+                            <text kind='gloss'>3S.RS=</text>
+                        </morpheme>
+                        <morpheme>
+                            <text kind='morpheme'>to</text>
+                            <text kind='gloss'>stay</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>esan</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>esan</text>
+                            <text kind='gloss'>place</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>ga,</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>ga</text>
+                            <text kind='gloss'>3S.</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>ipi</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>i=</text>
+                            <text kind='gloss'>3S.RS=</text>
+                        </morpheme>
+                        <morpheme>
+                            <text kind='morpheme'>pi</text>
+                            <text kind='gloss'>be</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>natopu</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>natopu</text>
+                            <text kind='gloss'>spirit</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+                <word>
+                    <text>nigmam.</text>
+                    <morphemelist>
+                        <morpheme>
+                            <text kind='morpheme'>nigmam</text>
+                            <text kind='gloss'>1P.POS</text>
+                        </morpheme>
+                    </morphemelist>
+                </word>
+            </wordlist>
+            <translation>The natopu (local spirit) that lives here, it is our natopu.</translation>
+        </phrase>
+    </interlinear>
+</eopas>

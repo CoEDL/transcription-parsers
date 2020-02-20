@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Trans SYSTEM "trans-13.dtd">
+<Trans scribe=" " audio_filename="NT1-98009-A" version="3" version_date="4/26/16">
+    <Episode>
+        <Section type="report" startTime="" endTime="2567.04">
+            <Turn startTime="" endTime="2567.04">
+                <Sync time=""/>
+
+                <Sync time="4.2200"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="14.4600"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="22.2600"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="30.6800"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="35.9201"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="46.8000"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="54.3800"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="62.6800"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="73.0399"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                <Sync time="80.4600"/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            </Turn>
+        </Section>
+    </Episode>
+</Trans>

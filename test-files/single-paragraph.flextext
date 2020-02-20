@@ -1,0 +1,86 @@
+<document version="2">
+    <interlinear-text guid="6c378b53-6e8b-4959-99e4-9c6ce6f07f5f">
+        <paragraphs>
+            <paragraph guid="af29dfd0-930d-4978-8372-69993aa6d31b">
+                <phrases>
+                    <phrase begin-time-offset="32130" end-time-offset="36870" guid="7ec7e7d5-269c-4fd2-865c-1db2d466bda7" media-file="db500314-7ab3-46ae-a2a4-27c1a2d16d53" speaker="SD">
+                        <item lang="mwf" type="txt">yuwu nantji peinting kanyi marntikerdek-ka</item>
+                        <item lang="en" type="gls">Yes, I've finished this painting.</item>
+                        <words>
+                            <word guid="660b896f-3638-4327-bd59-28b136549e28">
+                                <item type="txt" lang="mwf">yuwu</item>
+                                <morphemes>
+                                    <morph guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">yuwu</item>
+                                        <item type="cf" lang="mwf">yu</item>
+                                        <item type="gls" lang="en">yes</item>
+                                        <item type="msa" lang="en">INTJ </item>
+                                    </morph>
+                                </morphemes>
+                            </word>
+                            <word guid="5c428256-7cc9-49da-be45-da0c7cce4af3">
+                                <item type="txt" lang="mwf">nantji</item>
+                                <morphemes>
+                                    <morph guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">nantji</item>
+                                        <item type="cf" lang="mwf">nantji</item>
+                                        <item type="gls" lang="en">residue</item>
+                                        <item type="msa" lang="en">NC </item>
+                                    </morph>
+                                </morphemes>
+                            </word>
+                            <word guid="963c640e-0dd4-4f48-b7da-f87597e781b4">
+                                <item type="txt" lang="mwf">peinting</item>
+                                <morphemes>
+                                    <morph guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">peinting</item>
+                                        <item type="cf" lang="mwf">peinting</item>
+                                        <item type="gls" lang="en">painting</item>
+                                        <item type="msa" lang="en">n </item>
+                                    </morph>
+                                </morphemes>
+                            </word>
+                            <word guid="96b60282-12b4-4b8f-b9c8-d73cc28b87c2">
+                                <item type="txt" lang="mwf">kanyi</item>
+                                <morphemes>
+                                    <morph guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">kanyi</item>
+                                        <item type="cf" lang="mwf">kanyi</item>
+                                        <item type="gls" lang="en">PROX</item>
+                                        <item type="msa" lang="en">dem </item>
+                                    </morph>
+                                </morphemes>
+                            </word>
+                            <word guid="4536b8ee-fb96-40ce-99b9-95cbd47e1a5f">
+                                <item type="txt" lang="mwf">marntikerdek-ka</item>
+                                <morphemes>
+                                    <morph guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">mam</item>
+                                        <item type="cf" lang="mwf">mam</item>
+                                        <item type="gls" lang="en">1SG.HANDS(8).NFUT</item>
+                                        <item type="msa" lang="en">CSP </item>
+                                    </morph>
+                                    <morph guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">rikerdek</item>
+                                        <item type="cf" lang="mwf">rikerdek</item>
+                                        <item type="gls" lang="en">finish</item>
+                                        <item type="msa" lang="en">Cov </item>
+                                    </morph>
+                                    <morph guid="d7f713dd-e8cf-11d3-9764-00c04f186933">
+                                        <item type="txt" lang="mwf">-ka</item>
+                                        <item type="cf" lang="mwf">-ka</item>
+                                        <item type="gls" lang="en">TOP</item>
+                                        <item type="msa" lang="en">CTC</item>
+                                    </morph>
+                                </morphemes>
+                            </word>
+                        </words>
+                    </phrase>
+                </phrases>
+            </paragraph>
+        </paragraphs>
+        <media-files offset-type="">
+            <media guid="db500314-7ab3-46ae-a2a4-27c1a2d16d53" location=""/>
+        </media-files>
+    </interlinear-text>
+</document>
