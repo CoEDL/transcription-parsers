@@ -37,7 +37,10 @@ class TRSParser {
                 turns = flattenDeep(turns);
                 for (let i = 0; i < turns.length; i++) {
                     try {
-                        turns[i].id = `id_${i}_${turns[i].time.begin}`;
+                        turns[i].id = `id_${i}_${turns[i].time.begin.replace(
+                            ".",
+                            "_"
+                        )}`;
                         turns[i].time.end = turns[i + 1].time.begin;
                     } catch (error) {
                         // do nothing - last turn
