@@ -59,7 +59,7 @@ class IXTParser {
             });
             return {
                 time: {
-                    start: phrase.attributes.startTime,
+                    begin: phrase.attributes.startTime,
                     end: phrase.attributes.endTime
                 },
                 id: phrase.attributes.id,

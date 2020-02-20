@@ -1,6 +1,6 @@
 {
     "name": "transcription-parsers",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A set of parsers to convert transcription XML files to hierarchical JSON.",
     "main": "index.js",
     "scripts": {
