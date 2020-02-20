@@ -53,7 +53,11 @@ class IXTParser {
                 };
             });
             return {
-                ...phrase.attributes,
+                time: {
+                    start: phrase.attributes.startTime,
+                    end: phrase.attributes.endTime
+                },
+                id: phrase.attributes.id,
                 transcription,
                 words
             };
