@@ -14,7 +14,7 @@ it("should be able to parse trs test file 1 - single turn", async () => {
     expect(result.type).toBe("trs");
     expect(result.segments.episodes.length).toBe(1);
     expect(result.segments.episodes[0].sections.length).toBe(1);
-    expect(result.segments.episodes[0].sections[0].turns.length).toBe(2);
+    expect(result.segments.episodes[0].sections[0].turns.length).toBe(1);
 });
 
 it("should be able to parse trs test file 2 - multiple turns", async () => {
@@ -29,5 +29,5 @@ it("should be able to parse trs test file 2 - multiple turns", async () => {
     expect(result.type).toBe("trs");
     expect(result.segments.episodes.length).toBe(1);
     expect(result.segments.episodes[0].sections.length).toBe(1);
-    expect(result.segments.episodes[0].sections[0].turns.length).toBe(11);
+    expect(result.segments.episodes[0].sections[0].turns.length).toBe(10);
 });

@@ -15,19 +15,21 @@ class TRSParser {
                         const e2 = turn.elements.shift();
                         if (e1.name === "Sync" && e2.name === "Sync") {
                             turn.elements.unshift(e2);
-                            elements.push({
-                                time: {
-                                    begin: e1.attributes.time
-                                },
-                                text: ""
-                            });
+                            if (e1.attributes.time)
+                                elements.push({
+                                    time: {
+                                        begin: e1.attributes.time
+                                    },
+                                    text: ""
+                                });
                         } else {
-                            elements.push({
-                                time: {
-                                    begin: e1.attributes.time
-                                },
-                                text: e2.text
-                            });
+                            if (e1.attributes.time)
+                                elements.push({
+                                    time: {
+                                        begin: e1.attributes.time
+                                    },
+                                    text: e2.text
+                                });
                         }
                     }
                     return elements;
@@ -35,6 +37,7 @@ class TRSParser {
                 turns = flattenDeep(turns);
                 for (let i = 0; i < turns.length; i++) {
                     try {
+                        turns[i].id = `${i}-${turns[i].time.begin}`;
                         turns[i].time.end = turns[i + 1].time.begin;
                     } catch (error) {
                         // do nothing - last turn
