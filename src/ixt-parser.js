@@ -30,7 +30,12 @@ class IXTParser {
             let transcription = phrase.elements.filter(
                 p => p.name === "transcription"
             )[0];
+            let translation = phrase.elements.filter(
+                p => p.name === "translation"
+            )[0];
+
             transcription = transcription.elements[0].text;
+            translation = translation.elements[0].text;
             let wordlist = phrase.elements.filter(
                 p => p.name === "wordlist"
             )[0];
@@ -59,6 +64,7 @@ class IXTParser {
                 },
                 id: phrase.attributes.id,
                 transcription,
+                translation,
                 words
             };
         });
