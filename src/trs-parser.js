@@ -5,6 +5,7 @@ const { flattenDeep } = require("lodash");
 class TRSParser {
     parse({ data }) {
         data = data.elements.filter(d => d.name === "Trans")[0];
+        let transcription = { ...data.attributes };
         let episodes = data.elements.map(episode => {
             let sections = episode.elements.map(section => {
                 let turns = section.elements.map(turn => {
@@ -15,23 +16,35 @@ class TRSParser {
                         if (e1.name === "Sync" && e2.name === "Sync") {
                             turn.elements.unshift(e2);
                             elements.push({
-                                time: e1.attributes.time,
+                                time: {
+                                    begin: e1.attributes.time
+                                },
                                 text: ""
                             });
                         } else {
                             elements.push({
-                                time: e1.attributes.time,
+                                time: {
+                                    begin: e1.attributes.time
+                                },
                                 text: e2.text
                             });
                         }
                     }
                     return elements;
                 });
-                return { turns: flattenDeep(turns) };
+                turns = flattenDeep(turns);
+                for (let i = 0; i < turns.length; i++) {
+                    try {
+                        turns[i].time.end = turns[i + 1].time.begin;
+                    } catch (error) {
+                        // do nothing - last turn
+                    }
+                }
+                return { turns };
             });
             return { sections };
         });
-        return { episodes };
+        return { ...transcription, episodes };
     }
 }
 
