@@ -56,7 +56,7 @@ class FlextextParser {
             });
             return { phrases };
         });
-        return paragraphs;
+        return { paragraphs };
     }
 }
 
