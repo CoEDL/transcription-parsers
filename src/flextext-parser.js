@@ -45,7 +45,7 @@ class FlextextParser {
                 });
 
                 phrase = {
-                    id: phrase.attributes["begin-time-offset"],
+                    id: `id_${phrase.attributes["begin-time-offset"]}`,
                     ...phrase.attributes,
                     time: {
                         begin:
