@@ -30,11 +30,13 @@ class FlextextParser {
 
                     morphemes = morphemes.map(morph => {
                         return morph.elements.map(e => {
-                            return {
-                                lang: e.attributes.lang,
-                                type: e.attributes.type,
-                                text: e.elements[0].text
-                            };
+                            return e.elements.map(f => {
+                                return {
+                                    lang: getAttribute(f, "lang"),
+                                    type: getAttribute(f, "type"),
+                                    text: f.elements[0].text
+                                };
+                            });
                         });
                     });
                     return { morphemes };
@@ -51,6 +53,14 @@ class FlextextParser {
             return { phrases };
         });
         return paragraphs;
+    }
+}
+
+function getAttribute(e, attr) {
+    try {
+        return e.attributes[attr];
+    } catch (error) {
+        return "";
     }
 }
 
