@@ -75,7 +75,7 @@ class EAFParser {
             },
             timeslots: {
                 name: "timeslots",
-                children: timeslots
+                children: timeslots.filter(t => t.children)
             },
             statistics: {
                 ...statistics
