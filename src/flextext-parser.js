@@ -20,6 +20,8 @@ class FlextextParser {
                         text: item.elements[0].text
                     };
                 });
+                let transcription = items.filter(i => i.type !== "text")[0];
+                let translation = items.filter(i => i.type === "gls")[0];
 
                 words = words.map(word => {
                     let morphemes = word.elements.filter(
@@ -49,7 +51,8 @@ class FlextextParser {
                         begin: phrase.attributes["begin-time-offset"],
                         end: phrase.attributes["end-time-offset"]
                     },
-                    items,
+                    transcription,
+                    translation,
                     words
                 };
                 return phrase;

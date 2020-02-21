@@ -11,10 +11,10 @@ it("should be able to parse flextext test file 1 - single paragraph", async () =
     parser = new Parser({ name: "single-paragraph.flextext", data });
     result = await parser.parse();
     expect(result.type).toBe("flextext");
-    expect(result.segments.length).toBe(1);
-    expect(result.segments[0].phrases.length).toBe(1);
-    expect(result.segments[0].phrases[0].items.length).toBe(2);
-    expect(result.segments[0].phrases[0].words.length).toBe(5);
+    console.log(JSON.stringify(result.segments, null, 2));
+    expect(result.segments.paragraphs.length).toBe(1);
+    expect(result.segments.paragraphs[0].phrases.length).toBe(1);
+    expect(result.segments.paragraphs[0].phrases[0].words.length).toBe(5);
 });
 
 it("should be able to parse flextext test file 2 - multiple paragraphs", async () => {
@@ -26,5 +26,5 @@ it("should be able to parse flextext test file 2 - multiple paragraphs", async (
     parser = new Parser({ name: "single-paragraph.flextext", data });
     result = await parser.parse();
     expect(result.type).toBe("flextext");
-    expect(result.segments.length).toBe(6);
+    expect(result.segments.paragraphs.length).toBe(6);
 });
