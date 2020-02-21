@@ -48,8 +48,8 @@ class FlextextParser {
                     id: phrase.attributes["begin-time-offset"],
                     ...phrase.attributes,
                     time: {
-                        begin: phrase.attributes["begin-time-offset"],
-                        end: phrase.attributes["end-time-offset"]
+                        begin: phrase.attributes["begin-time-offset"] * 1000,
+                        end: phrase.attributes["end-time-offset"] * 1000
                     },
                     transcription,
                     translation,
