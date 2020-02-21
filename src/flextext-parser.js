@@ -45,6 +45,10 @@ class FlextextParser {
                 phrase = {
                     id: phrase.attributes["begin-time-offset"],
                     ...phrase.attributes,
+                    time: {
+                        begin: phrase.attributes["begin-time-offset"],
+                        end: phrase.attributes["end-time-offset"]
+                    },
                     items,
                     words
                 };
