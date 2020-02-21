@@ -183,8 +183,8 @@ class EAFParser {
             for (let timeslot of timeslots) {
                 if (annotation.ts.start === timeslot.name)
                     timeslot.children = [{ ...annotation }];
-                if (annotation.ts.end === timeslot.name)
-                    timeslot.children = [{ ...annotation }];
+                // if (annotation.ts.end === timeslot.name)
+                //     timeslot.children = [{ ...annotation }];
             }
         }
         return timeslots;
