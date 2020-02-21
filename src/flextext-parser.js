@@ -1,6 +1,6 @@
 "use strict";
 
-const { map, isArray } = require("lodash");
+const { flattenDeep } = require("lodash");
 
 class FlextextParser {
     constructor() {}
@@ -41,7 +41,7 @@ class FlextextParser {
                             });
                         });
                     });
-                    return { morphemes };
+                    return { morphemes: flattenDeep(morphemes) };
                 });
 
                 phrase = {
