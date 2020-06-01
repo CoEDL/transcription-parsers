@@ -11,7 +11,7 @@ it("should be able to parse flextext test file 1 - single paragraph", async () =
     parser = new Parser({ name: "single-paragraph.flextext", data });
     result = await parser.parse();
     expect(result.type).toBe("flextext");
-    console.log(JSON.stringify(result.segments, null, 2));
+    // console.log(JSON.stringify(result.segments, null, 2));
     expect(result.segments.paragraphs.length).toBe(1);
     expect(result.segments.paragraphs[0].phrases.length).toBe(1);
     expect(result.segments.paragraphs[0].phrases[0].words.length).toBe(5);
