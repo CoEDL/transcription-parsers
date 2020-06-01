@@ -1,11 +1,11 @@
 {
-    "name": "transcription-parsers",
+    "name": "@coedl/transcription-parsers",
     "version": "1.0.1",
     "description": "A set of parsers to convert transcription XML files to hierarchical JSON.",
     "main": "index.js",
     "scripts": {
-        "test-watch": "./node_modules/.bin/jest --watch",
-        "test": "./node_modules/.bin/jest"
+        "test:watch": "./node_modules/.bin/jest --verbose --watch",
+        "test": "./node_modules/.bin/jest --verbose"
     },
     "repository": {
         "type": "git",
@@ -25,7 +25,7 @@
         "xml-js": "^1.6.11"
     },
     "devDependencies": {
-        "fs-extra": "^8.1.0",
-        "jest": "^25.1.0"
+        "fs-extra": "^9.0.0",
+        "jest": "^26.0.1"
     }
 }
