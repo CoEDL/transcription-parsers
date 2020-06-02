@@ -23,7 +23,7 @@ it("should be able to parse flextext test file 2 - multiple paragraphs", async (
         "utf-8"
     );
 
-    parser = new Parser({ name: "single-paragraph.flextext", data });
+    parser = new Parser({ name: "mutliple-paragraphs.flextext", data });
     result = await parser.parse();
     expect(result.type).toBe("flextext");
     expect(result.segments.paragraphs.length).toBe(6);
