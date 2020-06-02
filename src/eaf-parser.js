@@ -263,7 +263,6 @@ class EAFParser {
             (statistics.annotationsWithContent.count /
                 statistics.alignableAnnotations) *
             100;
-        console.log(statistics.annotationsWithContent);
 
         function count(annotation) {
             mappedAnnotations[annotation.name] = annotation;
