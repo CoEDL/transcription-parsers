@@ -259,10 +259,12 @@ class EAFParser {
         alignableAnnotations.forEach((a) => {
             if (!isEmpty(a.value)) statistics.annotationsWithContent.count += 1;
         });
-        statistics.annotationsWithContent.percentage =
+        statistics.annotationsWithContent.percentage = round(
             (statistics.annotationsWithContent.count /
                 statistics.alignableAnnotations) *
-            100;
+                100,
+            1
+        );
 
         function count(annotation) {
             mappedAnnotations[annotation.name] = annotation;
