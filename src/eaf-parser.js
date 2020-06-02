@@ -1,6 +1,13 @@
 "use strict";
 
-const { flattenDeep, groupBy, orderBy, round, difference } = require("lodash");
+const {
+    flattenDeep,
+    groupBy,
+    orderBy,
+    round,
+    difference,
+    isEmpty,
+} = require("lodash");
 
 class EAFParser {
     constructor() {}
@@ -16,12 +23,12 @@ class EAFParser {
         if (timeslots.length) {
             let {
                 alignableAnnotations,
-                referenceAnnotations
+                referenceAnnotations,
             } = this.extractAnnotations();
             try {
                 tiers = this.joinAnnotationsToTiers({
                     alignableAnnotations,
-                    referenceAnnotations
+                    referenceAnnotations,
                 });
             } catch (error) {
                 throw new Error(
@@ -31,7 +38,7 @@ class EAFParser {
             try {
                 annotations = this.joinAnnotations({
                     alignableAnnotations: [...alignableAnnotations],
-                    referenceAnnotations: [...referenceAnnotations]
+                    referenceAnnotations: [...referenceAnnotations],
                 });
             } catch (error) {
                 throw new Error(
@@ -39,18 +46,18 @@ class EAFParser {
                 );
             }
             let timeslotsKeyedByName = groupBy(timeslots, "name");
-            annotations = annotations.map(a => {
+            annotations = annotations.map((a) => {
                 a.id = a.name;
                 a.time = {
                     begin: timeslotsKeyedByName[a.ts.start][0].value / 1000,
-                    end: timeslotsKeyedByName[a.ts.end][0].value / 1000
+                    end: timeslotsKeyedByName[a.ts.end][0].value / 1000,
                 };
                 return a;
             });
             try {
                 timeslots = this.joinAnnotationsToTimeslots({
                     annotations,
-                    timeslots
+                    timeslots,
                 });
             } catch (error) {
                 throw new Error(
@@ -62,7 +69,7 @@ class EAFParser {
                 tiers,
                 annotations,
                 alignableAnnotations,
-                referenceAnnotations
+                referenceAnnotations,
             });
         } else {
             errors.push({ msg: "No timeslots found" });
@@ -71,30 +78,30 @@ class EAFParser {
         return {
             tiers: {
                 name: "tiers",
-                children: tiers
+                children: tiers,
             },
             timeslots: {
                 name: "timeslots",
-                children: timeslots.filter(t => t.children)
+                children: timeslots.filter((t) => t.children),
             },
             statistics: {
-                ...statistics
+                ...statistics,
             },
-            errors
+            errors,
         };
     }
 
     extractTimeSlots() {
         let timeslots = this.data.elements[0].elements.filter(
-            e => e.name === "TIME_ORDER"
+            (e) => e.name === "TIME_ORDER"
         );
 
         if (timeslots.length) {
             timeslots = timeslots[0].elements;
-            timeslots = timeslots.map(timeslot => {
+            timeslots = timeslots.map((timeslot) => {
                 return {
                     name: timeslot.attributes.TIME_SLOT_ID,
-                    value: parseInt(timeslot.attributes.TIME_VALUE)
+                    value: parseInt(timeslot.attributes.TIME_VALUE),
                 };
             });
         }
@@ -104,22 +111,22 @@ class EAFParser {
 
     extractAnnotations() {
         let annotations = this.data.elements[0].elements
-            .filter(e => e.name === "TIER")
-            .map(t => {
-                return t.elements.map(a => {
+            .filter((e) => e.name === "TIER")
+            .map((t) => {
+                return t.elements.map((a) => {
                     return { ...a, tier: t.attributes.TIER_ID };
                 });
             });
 
         annotations = flattenDeep(annotations);
-        let alignableAnnotations = annotations.filter(a => {
+        let alignableAnnotations = annotations.filter((a) => {
             return a.elements[0].name === "ALIGNABLE_ANNOTATION";
         });
-        let referenceAnnotations = annotations.filter(a => {
+        let referenceAnnotations = annotations.filter((a) => {
             return a.elements[0].name === "REF_ANNOTATION";
         });
 
-        alignableAnnotations = alignableAnnotations.map(annotation => {
+        alignableAnnotations = alignableAnnotations.map((annotation) => {
             try {
                 return {
                     name: annotation.elements[0].attributes.ANNOTATION_ID,
@@ -131,18 +138,18 @@ class EAFParser {
                     children: [],
                     ts: {
                         start: annotation.elements[0].attributes.TIME_SLOT_REF1,
-                        end: annotation.elements[0].attributes.TIME_SLOT_REF2
+                        end: annotation.elements[0].attributes.TIME_SLOT_REF2,
                     },
                     time: {
                         start: "",
-                        end: ""
-                    }
+                        end: "",
+                    },
                 };
             } catch (error) {
                 console.log(JSON.stringify(annotation, null, 2));
             }
         });
-        referenceAnnotations = referenceAnnotations.map(annotation => {
+        referenceAnnotations = referenceAnnotations.map((annotation) => {
             return {
                 name: annotation.elements[0].attributes.ANNOTATION_ID,
                 parent: annotation.elements[0].attributes.ANNOTATION_REF,
@@ -151,17 +158,17 @@ class EAFParser {
                     ? annotation.elements[0].elements[0].elements[0].text
                     : undefined,
                 tier: annotation.tier,
-                children: []
+                children: [],
             };
         });
         return {
             alignableAnnotations: alignableAnnotations,
-            referenceAnnotations: referenceAnnotations
+            referenceAnnotations: referenceAnnotations,
         };
     }
 
     joinAnnotations({ alignableAnnotations, referenceAnnotations }) {
-        referenceAnnotations.forEach(annotation => {
+        referenceAnnotations.forEach((annotation) => {
             join(annotation, alignableAnnotations);
         });
         return alignableAnnotations;
@@ -200,7 +207,7 @@ class EAFParser {
             tiers.push({
                 name: tier,
                 value: "",
-                children: groupedByTier[tier]
+                children: groupedByTier[tier],
             });
         }
         return tiers;
@@ -211,7 +218,7 @@ class EAFParser {
         tiers,
         annotations,
         alignableAnnotations,
-        referenceAnnotations
+        referenceAnnotations,
     }) {
         let statistics = {};
         let ts = orderBy([...timeslots], "value");
@@ -220,7 +227,7 @@ class EAFParser {
         statistics.startTime = ts[0].value;
         statistics.endTime = ts.slice(-1)[0].value;
         statistics.numberOfTiers = tiers.length;
-        statistics.percentageFilled = round(
+        statistics.coveredByAnnotations = round(
             (statistics.duration / statistics.endTime) * 100,
             1
         );
@@ -236,8 +243,8 @@ class EAFParser {
         }
         mappedAnnotations = Object.keys(mappedAnnotations);
         let dataAnnotations = [
-            ...alignableAnnotations.map(a => a.name),
-            ...referenceAnnotations.map(a => a.name)
+            ...alignableAnnotations.map((a) => a.name),
+            ...referenceAnnotations.map((a) => a.name),
         ];
         statistics.unmappedAnnotations = difference(
             dataAnnotations,
@@ -245,6 +252,18 @@ class EAFParser {
         );
         statistics.referenceAnnotations = referenceAnnotations.length;
         statistics.alignableAnnotations = alignableAnnotations.length;
+        statistics.annotationsWithContent = {
+            count: 0,
+            percentage: 0,
+        };
+        alignableAnnotations.forEach((a) => {
+            if (!isEmpty(a.value)) statistics.annotationsWithContent.count += 1;
+        });
+        statistics.annotationsWithContent.percentage =
+            (statistics.annotationsWithContent.count /
+                statistics.alignableAnnotations) *
+            100;
+        console.log(statistics.annotationsWithContent);
 
         function count(annotation) {
             mappedAnnotations[annotation.name] = annotation;
@@ -258,5 +277,5 @@ class EAFParser {
 }
 
 module.exports = {
-    EAFParser
+    EAFParser,
 };
