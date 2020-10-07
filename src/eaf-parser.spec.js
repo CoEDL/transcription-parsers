@@ -29,3 +29,16 @@ it("should be able to parse eaf test file 2 - multiple tiers", async () => {
     expect(result.tiers.children.length).toBe(6);
     expect(result.timeslots.children.length).toBe(1);
 });
+
+it("should not be able to parse an eaf test file without timeslots", async () => {
+    let data = await fs.readFileSync(
+        path.join(__dirname, "../test-files/no-timeslots.eaf"),
+        "utf-8"
+    );
+
+    try {
+        parser = new Parser({ name: "no-timeslots.eaf", data });
+    } catch (error) {
+        expect(error.message).toBe("No timeslots found in file");
+    }
+});

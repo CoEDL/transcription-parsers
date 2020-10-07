@@ -18,6 +18,9 @@ class EAFParser {
         let tiers = [];
         let statistics = {};
         let timeslots = this.extractTimeSlots();
+        if (!timeslots) {
+            throw new Error("No timeslots found in file");
+        }
         let errors = [];
         let annotations = [];
         if (timeslots.length) {
@@ -96,7 +99,7 @@ class EAFParser {
             (e) => e.name === "TIME_ORDER"
         );
 
-        if (timeslots.length) {
+        if (timeslots.length && timeslots[0].elements) {
             timeslots = timeslots[0].elements;
             timeslots = timeslots.map((timeslot) => {
                 return {
@@ -104,9 +107,9 @@ class EAFParser {
                     value: parseInt(timeslot.attributes.TIME_VALUE),
                 };
             });
+            return timeslots;
         }
-
-        return timeslots;
+        return undefined;
     }
 
     extractAnnotations() {
