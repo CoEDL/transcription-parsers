@@ -1,6 +1,6 @@
 {
     "name": "@coedl/transcription-parsers",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "A set of parsers to convert transcription XML files to hierarchical JSON.",
     "main": "index.js",
     "scripts": {
