@@ -13,7 +13,7 @@ pass it to the library. Following are usage examples for both types of environme
 
 ## Installation
 
-npm install --save https://github.com/CoEDL/transcription-parsers
+npm install --save @coedl/transcription-parsers
 
 ## Browser Usage
 
