@@ -31,3 +31,14 @@ it("should be able to parse trs test file 2 - multiple turns", async () => {
     expect(result.segments.episodes[0].sections.length).toBe(1);
     expect(result.segments.episodes[0].sections[0].turns.length).toBe(10);
 });
+
+it("should be able to parse trs test file 2 - multiple turns", async () => {
+    let file = "VG1-06028-1.trs";
+    let data = await fs.readFileSync(
+        path.join(__dirname, `../test-files/${file}`),
+        "utf-8"
+    );
+
+    parser = new Parser({ name: file, data });
+    result = await parser.parse();
+});

@@ -25,26 +25,30 @@ class FlextextParser {
                 let transcription = items.filter((i) => i.type !== "text")[0];
                 let translation = items.filter((i) => i.type === "gls")[0];
 
-                words = words.map((word) => {
-                    let morphemes = word.elements.filter(
-                        (e) => e.name === "morphemes"
-                    );
-                    if (!morphemes.length) return { morphemes: [] };
-                    if (!morphemes[0].elements) return { morphemes: [] };
+                if (words) {
+                    words = words.map((word) => {
+                        let morphemes = word.elements.filter(
+                            (e) => e.name === "morphemes"
+                        );
+                        if (!morphemes.length) return { morphemes: [] };
+                        if (!morphemes[0].elements) return { morphemes: [] };
 
-                    morphemes = morphemes.map((morph) => {
-                        return morph.elements.map((e) => {
-                            return e.elements.map((f) => {
-                                return {
-                                    lang: getAttribute(f, "lang"),
-                                    type: getAttribute(f, "type"),
-                                    text: f.elements[0].text,
-                                };
+                        morphemes = morphemes.map((morph) => {
+                            return morph.elements.map((e) => {
+                                return e.elements.map((f) => {
+                                    return {
+                                        lang: getAttribute(f, "lang"),
+                                        type: getAttribute(f, "type"),
+                                        text: f.elements[0].text,
+                                    };
+                                });
                             });
                         });
+                        return { morphemes: flattenDeep(morphemes) };
                     });
-                    return { morphemes: flattenDeep(morphemes) };
-                });
+                } else {
+                    words = [];
+                }
 
                 phrase = {
                     id: `id_${phrase.attributes["begin-time-offset"]}`,
