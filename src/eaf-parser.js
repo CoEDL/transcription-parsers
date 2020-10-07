@@ -113,12 +113,19 @@ class EAFParser {
     }
 
     extractAnnotations() {
+        const tiers = this.data.elements[0].elements.filter(
+            (e) => e.name === "TIER"
+        );
         let annotations = this.data.elements[0].elements
             .filter((e) => e.name === "TIER")
             .map((t) => {
-                return t.elements.map((a) => {
-                    return { ...a, tier: t.attributes.TIER_ID };
-                });
+                if (t.elements) {
+                    return t.elements.map((a) => {
+                        return { ...a, tier: t.attributes.TIER_ID };
+                    });
+                } else {
+                    return [];
+                }
             });
 
         annotations = flattenDeep(annotations);
