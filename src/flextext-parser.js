@@ -47,7 +47,10 @@ class FlextextParser {
                                     return {
                                         lang: getAttribute(f, "lang"),
                                         type: getAttribute(f, "type"),
-                                        text: f.elements[0].text,
+                                        text:
+                                            f.elements && f.elements[0].text
+                                                ? f.elements[0].text
+                                                : "",
                                     };
                                 });
                             });
