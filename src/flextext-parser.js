@@ -6,15 +6,23 @@ class FlextextParser {
     constructor() {}
 
     parse({ data }) {
-        let paragraphs = data.elements[0].elements[0].elements[0].elements;
+        let paragraphs = data.elements[0].elements[0].elements.filter(
+            (e) => e.name === "paragraphs"
+        )[0].elements;
+        // console.log(paragraphs);
+        // paragraphs = data.elements[0].elements[0].elements[0].elements;
+        if (!paragraphs) return { paragraphs: [] };
         paragraphs = paragraphs.map((paragraph) => {
             let phrases = paragraph.elements
                 ? paragraph.elements[0].elements
                 : [];
             phrases = phrases.map((phrase) => {
                 let items = phrase.elements.filter((e) => e.name === "item");
-                let words = phrase.elements.filter((e) => e.name === "words")[0]
-                    .elements;
+                let words = phrase.elements.filter((e) => e.name === "words");
+                if (words.length) {
+                    words = phrase.elements.filter((e) => e.name === "words")[0]
+                        .elements;
+                }
                 items = items.map((item) => {
                     return {
                         lang: item.attributes.lang,

@@ -14,7 +14,12 @@ class TRSParser {
                         while (turn.elements.length > 0) {
                             const e1 = turn.elements.shift();
                             const e2 = turn.elements.shift();
-                            if (e1.name === "Sync" && e2.name === "Sync") {
+                            if (
+                                e1 &&
+                                e1.name === "Sync" &&
+                                e2 &&
+                                e2.name === "Sync"
+                            ) {
                                 turn.elements.unshift(e2);
                                 if (e1.attributes.time)
                                     elements.push({
@@ -24,12 +29,12 @@ class TRSParser {
                                         text: "",
                                     });
                             } else {
-                                if (e1.attributes.time)
+                                if (e1.attributes && e1.attributes.time)
                                     elements.push({
                                         time: {
                                             begin: e1.attributes.time,
                                         },
-                                        text: e2.text,
+                                        text: e2 ? e2.text : "",
                                     });
                             }
                         }
