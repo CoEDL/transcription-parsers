@@ -68,7 +68,7 @@ class IXTParser {
                     begin: phrase.attributes.startTime,
                     end: phrase.attributes.endTime,
                 },
-                id: phrase.attributes.id,
+                id: phrase.attributes.id.replace(" ", "_").replace("\n", "_"),
                 transcription,
                 translation,
                 words,
