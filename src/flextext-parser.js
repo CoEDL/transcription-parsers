@@ -1,6 +1,7 @@
 "use strict";
 
 const { flattenDeep } = require("lodash");
+const { generateId } = require("./lib.js");
 
 class FlextextParser {
     constructor() {}
@@ -13,15 +14,12 @@ class FlextextParser {
         // paragraphs = data.elements[0].elements[0].elements[0].elements;
         if (!paragraphs) return { paragraphs: [] };
         paragraphs = paragraphs.map((paragraph) => {
-            let phrases = paragraph.elements
-                ? paragraph.elements[0].elements
-                : [];
+            let phrases = paragraph.elements ? paragraph.elements[0].elements : [];
             phrases = phrases.map((phrase) => {
                 let items = phrase.elements.filter((e) => e.name === "item");
                 let words = phrase.elements.filter((e) => e.name === "words");
                 if (words.length) {
-                    words = phrase.elements.filter((e) => e.name === "words")[0]
-                        .elements;
+                    words = phrase.elements.filter((e) => e.name === "words")[0].elements;
                 }
                 items = items.map((item) => {
                     return {
@@ -35,9 +33,7 @@ class FlextextParser {
 
                 if (words) {
                     words = words.map((word) => {
-                        let morphemes = word.elements.filter(
-                            (e) => e.name === "morphemes"
-                        );
+                        let morphemes = word.elements.filter((e) => e.name === "morphemes");
                         if (!morphemes.length) return { morphemes: [] };
                         if (!morphemes[0].elements) return { morphemes: [] };
 
@@ -62,15 +58,11 @@ class FlextextParser {
                 }
 
                 phrase = {
-                    id: `id_${phrase.attributes["begin-time-offset"]}`,
+                    id: generateId(phrase.attributes["begin-time-offset"]),
                     ...phrase.attributes,
                     time: {
-                        begin:
-                            parseInt(phrase.attributes["begin-time-offset"]) /
-                            1000,
-                        end:
-                            parseInt(phrase.attributes["end-time-offset"]) /
-                            1000,
+                        begin: parseInt(phrase.attributes["begin-time-offset"]) / 1000,
+                        end: parseInt(phrase.attributes["end-time-offset"]) / 1000,
                     },
                     transcription,
                     translation,

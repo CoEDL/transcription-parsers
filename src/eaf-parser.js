@@ -1,13 +1,7 @@
 "use strict";
 
-const {
-    flattenDeep,
-    groupBy,
-    orderBy,
-    round,
-    difference,
-    isEmpty,
-} = require("lodash");
+const { flattenDeep, groupBy, orderBy, round, difference, isEmpty } = require("lodash");
+const { generateId } = require("./lib.js");
 
 class EAFParser {
     constructor() {}
@@ -24,19 +18,14 @@ class EAFParser {
         let errors = [];
         let annotations = [];
         if (timeslots.length) {
-            let {
-                alignableAnnotations,
-                referenceAnnotations,
-            } = this.extractAnnotations();
+            let { alignableAnnotations, referenceAnnotations } = this.extractAnnotations();
             try {
                 tiers = this.joinAnnotationsToTiers({
                     alignableAnnotations,
                     referenceAnnotations,
                 });
             } catch (error) {
-                throw new Error(
-                    `File invalid: unable to join 'ANNOTATIONS' to TIERS`
-                );
+                throw new Error(`File invalid: unable to join 'ANNOTATIONS' to TIERS`);
             }
             try {
                 annotations = this.joinAnnotations({
@@ -50,7 +39,7 @@ class EAFParser {
             }
             let timeslotsKeyedByName = groupBy(timeslots, "name");
             annotations = annotations.map((a) => {
-                a.id = a.name;
+                a.id = generateId(a.name);
                 a.time = {
                     begin: timeslotsKeyedByName[a.ts.start][0].value / 1000,
                     end: timeslotsKeyedByName[a.ts.end][0].value / 1000,
@@ -63,9 +52,7 @@ class EAFParser {
                     timeslots,
                 });
             } catch (error) {
-                throw new Error(
-                    `File invalid: unable to join annotations to TIERS`
-                );
+                throw new Error(`File invalid: unable to join annotations to TIERS`);
             }
             statistics = this.gatherStatistics({
                 timeslots,
@@ -95,9 +82,7 @@ class EAFParser {
     }
 
     extractTimeSlots() {
-        let timeslots = this.data.elements[0].elements.filter(
-            (e) => e.name === "TIME_ORDER"
-        );
+        let timeslots = this.data.elements[0].elements.filter((e) => e.name === "TIME_ORDER");
 
         if (timeslots.length && timeslots[0].elements) {
             timeslots = timeslots[0].elements;
@@ -113,9 +98,7 @@ class EAFParser {
     }
 
     extractAnnotations() {
-        const tiers = this.data.elements[0].elements.filter(
-            (e) => e.name === "TIER"
-        );
+        const tiers = this.data.elements[0].elements.filter((e) => e.name === "TIER");
         let annotations = this.data.elements[0].elements
             .filter((e) => e.name === "TIER")
             .map((t) => {
@@ -198,8 +181,7 @@ class EAFParser {
     joinAnnotationsToTimeslots({ annotations, timeslots }) {
         for (let annotation of annotations) {
             for (let timeslot of timeslots) {
-                if (annotation.ts.start === timeslot.name)
-                    timeslot.children = [{ ...annotation }];
+                if (annotation.ts.start === timeslot.name) timeslot.children = [{ ...annotation }];
                 // if (annotation.ts.end === timeslot.name)
                 //     timeslot.children = [{ ...annotation }];
             }
@@ -208,10 +190,7 @@ class EAFParser {
     }
 
     joinAnnotationsToTiers({ alignableAnnotations, referenceAnnotations }) {
-        let groupedByTier = groupBy(
-            [...alignableAnnotations, ...referenceAnnotations],
-            "tier"
-        );
+        let groupedByTier = groupBy([...alignableAnnotations, ...referenceAnnotations], "tier");
         let tiers = [];
         for (let tier of Object.keys(groupedByTier)) {
             tiers.push({
@@ -256,10 +235,7 @@ class EAFParser {
             ...alignableAnnotations.map((a) => a.name),
             ...referenceAnnotations.map((a) => a.name),
         ];
-        statistics.unmappedAnnotations = difference(
-            dataAnnotations,
-            mappedAnnotations
-        );
+        statistics.unmappedAnnotations = difference(dataAnnotations, mappedAnnotations);
         statistics.referenceAnnotations = referenceAnnotations.length;
         statistics.alignableAnnotations = alignableAnnotations.length;
         statistics.annotationsWithContent = {
@@ -270,9 +246,7 @@ class EAFParser {
             if (!isEmpty(a.value)) statistics.annotationsWithContent.count += 1;
         });
         statistics.annotationsWithContent.percentage = round(
-            (statistics.annotationsWithContent.count /
-                statistics.alignableAnnotations) *
-                100,
+            (statistics.annotationsWithContent.count / statistics.alignableAnnotations) * 100,
             1
         );
 

@@ -1,6 +1,7 @@
 "use strict";
 
 const { flattenDeep } = require("lodash");
+const { generateId } = require("./lib.js");
 
 class TRSParser {
     parse({ data }) {
@@ -14,12 +15,7 @@ class TRSParser {
                         while (turn.elements.length > 0) {
                             const e1 = turn.elements.shift();
                             const e2 = turn.elements.shift();
-                            if (
-                                e1 &&
-                                e1.name === "Sync" &&
-                                e2 &&
-                                e2.name === "Sync"
-                            ) {
+                            if (e1 && e1.name === "Sync" && e2 && e2.name === "Sync") {
                                 turn.elements.unshift(e2);
                                 if (e1.attributes.time)
                                     elements.push({
@@ -43,9 +39,7 @@ class TRSParser {
                     turns = flattenDeep(turns);
                     for (let i = 0; i < turns.length; i++) {
                         try {
-                            turns[i].id = `id_${i}_${turns[
-                                i
-                            ].time.begin.replace(".", "_")}`;
+                            turns[i].id = generateId(`${i}_${turns[i].time.begin}`);
                             turns[i].time.end = turns[i + 1].time.begin;
                         } catch (error) {
                             // do nothing - last turn
